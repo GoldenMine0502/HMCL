@@ -1,8 +1,11 @@
+
+
 rootProject.name = "HMCL3"
 include(
     "HMCL",
     "HMCLCore",
     "HMCLTransformerDiscoveryService",
+    "INULauncher",
     "log4j-patch"
 )
 

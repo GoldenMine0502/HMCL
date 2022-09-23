@@ -1,0 +1,27 @@
+
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'kr.goldenmine'
+version '3.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(project(":HMCLCore"))
+    implementation(project(":HMCL"))
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+//application {
+//    applicationDefaultJvmArgs = listOf("-Xmx2048m")
+//}

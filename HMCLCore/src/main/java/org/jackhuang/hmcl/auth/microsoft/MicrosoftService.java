@@ -110,6 +110,7 @@ public class MicrosoftService {
         return uhs;
     }
 
+    // TODO
     private MicrosoftSession authenticateViaLiveAccessToken(String liveAccessToken, String liveRefreshToken) throws IOException, JsonParseException, AuthenticationException {
         // Authenticate with XBox Live
         XBoxLiveAuthenticationResponse xboxResponse = HttpRequest
