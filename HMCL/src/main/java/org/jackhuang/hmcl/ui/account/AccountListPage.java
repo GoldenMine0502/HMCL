@@ -58,7 +58,7 @@ public class AccountListPage extends DecoratorAnimatedPage implements DecoratorP
     private final ObjectProperty<Account> selectedAccount;
 
     public AccountListPage() {
-        items = MappedObservableList.create(accounts, AccountListItem::new);
+        items = MappedObservableList.create(accounts, account -> new AccountListItem(account));
         selectedAccount = createSelectedItemPropertyFor(items, Account.class);
     }
 

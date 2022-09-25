@@ -314,7 +314,7 @@ public class MicrosoftService {
      * XErr Candidates: 2148916233 = missing XBox account 2148916238 = child account
      * not linked to a family
      */
-    private static class XBoxLiveAuthenticationResponse extends MicrosoftErrorResponse {
+    public static class XBoxLiveAuthenticationResponse extends MicrosoftErrorResponse {
         @SerializedName("IssueInstant")
         String issueInstant;
 
@@ -328,7 +328,7 @@ public class MicrosoftService {
         XBoxLiveAuthenticationResponseDisplayClaims displayClaims;
     }
 
-    private static class MinecraftLoginWithXBoxResponse {
+    public static class MinecraftLoginWithXBoxResponse {
         @SerializedName("username")
         String username;
 

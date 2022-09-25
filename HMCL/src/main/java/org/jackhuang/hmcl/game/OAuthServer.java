@@ -55,9 +55,10 @@ public final class OAuthServer extends NanoHTTPD implements OAuth.Session {
         this.port = port;
     }
 
+    //http://localhost:20200/auth
     @Override
     public String getRedirectURI() {
-        return String.format("http://localhost:%d/auth-response", port);
+        return String.format("http://localhost:%d/auth", port);
     }
 
     @Override
@@ -72,7 +73,7 @@ public final class OAuthServer extends NanoHTTPD implements OAuth.Session {
 
     @Override
     public Response serve(IHTTPSession session) {
-        if (!"/auth-response".equals(session.getUri())) {
+        if (!"/auth".equals(session.getUri())) {
             return newFixedLengthResponse(Response.Status.NOT_FOUND, MIME_HTML, "");
         }
 
@@ -125,6 +126,8 @@ public final class OAuthServer extends NanoHTTPD implements OAuth.Session {
         public final EventManager<GrantDeviceCodeEvent> onGrantDeviceCode = new EventManager<>();
         public final EventManager<OpenBrowserEvent> onOpenBrowser = new EventManager<>();
 
+        public String customClientId = null;
+
         @Override
         public OAuth.Session startServer() throws IOException, AuthenticationException {
             if (StringUtils.isBlank(getClientId())) {
@@ -132,7 +135,7 @@ public final class OAuthServer extends NanoHTTPD implements OAuth.Session {
             }
 
             IOException exception = null;
-            for (int port : new int[]{29111, 29112, 29113, 29114, 29115}) {
+            for (int port : new int[]{20200}) {
                 try {
                     OAuthServer server = new OAuthServer(port);
                     server.start(NanoHTTPD.SOCKET_READ_TIMEOUT, true);
@@ -159,8 +162,13 @@ public final class OAuthServer extends NanoHTTPD implements OAuth.Session {
 
         @Override
         public String getClientId() {
-            return System.getProperty("hmcl.microsoft.auth.id",
-                    JarUtils.thisJar().flatMap(JarUtils::getManifest).map(manifest -> manifest.getMainAttributes().getValue("Microsoft-Auth-Id")).orElse(""));
+            System.out.println("passed getClientId() " + customClientId + ", " + System.getProperty("hmcl.microsoft.auth.id"));
+            if(customClientId == null) {
+                return System.getProperty("hmcl.microsoft.auth.id",
+                        JarUtils.thisJar().flatMap(JarUtils::getManifest).map(manifest -> manifest.getMainAttributes().getValue("Microsoft-Auth-Id")).orElse(""));
+            } else {
+                return customClientId;
+            }
         }
 
         @Override

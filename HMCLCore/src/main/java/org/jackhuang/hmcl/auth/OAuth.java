@@ -78,9 +78,15 @@ public class OAuth {
     private Result authenticateAuthorizationCode(Options options) throws IOException, InterruptedException, JsonParseException, ExecutionException, AuthenticationException {
         Session session = options.callback.startServer();
         options.callback.openBrowser(NetworkUtils.withQuery(authorizationURL,
-                mapOf(pair("client_id", options.callback.getClientId()), pair("response_type", "code"),
-                        pair("redirect_uri", session.getRedirectURI()), pair("scope", options.scope),
-                        pair("prompt", "select_account"))));
+                mapOf(
+                        pair("client_id", options.callback.getClientId()),
+                        pair("response_type", "code"),
+                        pair("redirect_uri", session.getRedirectURI()),
+                        pair("scope", options.scope),
+                        pair("prompt", "select_account")
+                )
+            )
+        );
         String code = session.waitFor();
 
         // Authorization Code -> Token
@@ -187,7 +193,7 @@ public class OAuth {
                 break;
         }
 
-        throw new RemoteAuthenticationException(response.error, response.errorDescription, "");
+        throw new RemoteAuthenticationException(response.error + "asdf", response.errorDescription + "asdf", "");
     }
 
     public static class Options {
@@ -271,7 +277,7 @@ public class OAuth {
         }
     }
 
-    private static class DeviceTokenResponse extends ErrorResponse {
+    public static class DeviceTokenResponse extends ErrorResponse {
         @SerializedName("user_code")
         public String userCode;
 

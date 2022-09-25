@@ -50,4 +50,8 @@ public class MicrosoftAccountFactory extends AccountFactory<MicrosoftAccount> {
         MicrosoftSession session = MicrosoftSession.fromStorage(storage);
         return new MicrosoftAccount(service, session);
     }
+
+    public MicrosoftService getService() {
+        return service;
+    }
 }
